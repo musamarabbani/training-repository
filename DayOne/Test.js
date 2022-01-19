@@ -11,7 +11,6 @@
 //     console.log(element);
 //   }
 
-
 // // labelling example with countinue statement
 // let i, j;
 
@@ -63,7 +62,6 @@
 // setCookie("user_email","bobthegreat@gmail.com",30); //set "user_email" cookie, expires in 30 days
 // var userEmail=getCookie("user_email");//"bobthegreat@gmail.com"
 
-
 // Page Redirect
 
 // window.location.reload();  // to reload page
@@ -78,14 +76,11 @@
 //     window.location.reload();
 //     },2000); // after every 2 seconds
 
-
-
 //     Javascript functions:
 // Primitive values that are passed to functions are by values and not by reference, but if we pass an object as parameter, in that case, this change will be implemented as globally because object and non-primitive data type parameters are passed by reference and not by value.
 
 // Function expression allows us to create anonymous functions, it does not need of function keyword, a function expression has to be stored inside a variable and can be accessed with a variable name.
 // Function declarations are similar to var and they will automatically hoisted, however, function expressions will not be hoisted.
-
 
 // Functions can be multiply-nested. For example:
 // * A function (A) contains a function (B), which itself contains a function (C).
@@ -96,7 +91,6 @@
 
 // A function literal is just an expression that defines an unnamed function. The syntax for a function literal is much like that of the function statement, except that it is used as an expression rather than as a statement and no function name is required.
 
-
 //      Javascript Dialog Boxes are of three types as below
 // I) Alert
 // To warn user with only one button
@@ -104,7 +98,6 @@
 // To take confirm from user with two buttons
 // III) Promt
 // To take some information from user
-
 
 //      Javascript Numbers
 
@@ -117,32 +110,32 @@
 // let numberObj = new Number(12);
 // console.log('numberObj ==>', numberObj.valueOf());
 
-let sampleString =new String('Hellow World sample');
+let sampleString = new String('Hellow World sample');
 console.log(typeof sampleString);
 console.log(sampleString.length);
 console.log('charAt ==>', sampleString.charAt(0));
 console.log('indexOf ==>', sampleString.indexOf('l'));
 
-let text = "lastIndexOf returns the element from last occurence of element";
-let result = text.lastIndexOf("element");
+let text = 'lastIndexOf returns the element from last occurence of element';
+let result = text.lastIndexOf('element');
 console.log('lastIndexof text ==>', result);
 
 // The localeCompare() method compares two strings in the current locale.
 
 // The localeCompare() method returns sort order -1, 1, or 0 (for before, after, or equal).
 
-let matchStr = "The rain in SPAIN stays mainly rain in the plain";
-let matchRresult = matchStr.match("rain");
-console.log('matchRresult ==>', matchRresult)
+let matchStr = 'The rain in SPAIN stays mainly rain in the plain';
+let matchRresult = matchStr.match('rain');
+console.log('matchRresult ==>', matchRresult);
 
 // reduce method
-var total = [0, 1, 2, 3].reduce(function(a, b){ return a + b; }); 
-console.log("total is : " + total ); 
-
-
+var total = [0, 1, 2, 3].reduce(function (a, b) {
+	return a + b;
+});
+console.log('total is : ' + total);
 
 // Javascript Array
 
-let arr = [1,2,3,4];
-arr.splice(0,0,4,5);
+let arr = [1, 2, 3, 4];
+arr.splice(0, 0, 4, 5);
 console.log('arr', arr);
