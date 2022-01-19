@@ -1,1 +1,1 @@
-# practive-repo
+# Training Tasks Repository
