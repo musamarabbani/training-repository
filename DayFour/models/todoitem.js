@@ -8,7 +8,7 @@ module.exports = (sequelize, DataTypes) => {
 		 * The `models/index` file will call this method automatically.
 		 */
 		static associate(models) {
-			this.belongsTo(models.Todo, {
+			this.belongsTo(models.todo, {
 				foreignKey: 'todoId',
 				onDelete: 'CASCADE',
 			});
