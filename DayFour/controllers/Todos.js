@@ -1,16 +1,16 @@
-const Todo = require('../models');
+const Todo = require('../models').todo;
 const { check, validationResult } = require('express-validator');
 
 const createTodo = async (req, res) => {
 	try {
 		let { title } = req.body;
-		let createdTodo = await Todo.create({ title: req });
+		let createdTodo = await Todo.create({ title });
 		if (!createdTodo) throw new Error('could not create todo');
 		return res.status(200).json({ createdTodo });
 	} catch (err) {
+		console.log('err', err.message);
 		return res.status(400).json({
-			message: '',
-			error: err,
+			message: err.message ? err.message : 'server error',
 			status: 400,
 		});
 	}
