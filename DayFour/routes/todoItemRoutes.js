@@ -6,47 +6,49 @@ const todoItemController = require('../controllers/TodoItems');
 
 router.post(
 	'/create',
-	[check('title').trim().not().isEmpty().withMessage('title is required')],
-	todoItemController.createTodo
+	[
+		check('content').trim().not().isEmpty().withMessage('content is required'),
+		check('todoId')
+			.trim()
+			.not()
+			.isEmpty()
+			.withMessage('todoId should not be empty'),
+	],
+	todoItemController.createTodoItem
 );
 router.put(
-	'/update/:todoId',
+	'/update/:todoItemId',
 	[
-		param('todoId')
+		param('todoItemId')
 			.trim()
 			.not()
 			.isEmpty()
-			.withMessage('todoId is required in params'),
-		check('title')
-			.trim()
-			.not()
-			.isEmpty()
-			.withMessage('title is required to update todo title'),
+			.withMessage('todoItemId is required in params'),
 	],
 	todoItemController.updateTodoById
 );
 router.delete(
-	'/delete/:todoId',
+	'/delete/:todoItemId',
 	[
-		param('todoId')
+		param('todoItemId')
 			.trim()
 			.not()
 			.isEmpty()
-			.withMessage('todoId is required in params'),
+			.withMessage('todoItemId is required in params'),
 	],
 	todoItemController.deleteTodoById
 );
 router.get(
-	'/todo/:todoId',
+	'/todoItem/:todoItemId',
 	[
-		param('todoId')
+		param('todoItemId')
 			.trim()
 			.not()
 			.isEmpty()
-			.withMessage('todoId is required in params'),
+			.withMessage('todoItemId is required in params'),
 	],
 	todoItemController.getTodoById
 );
-router.get('/allTodos', todoItemController.getAllTodos);
+router.get('/allTodoItems', todoItemController.getAllTodoItems);
 
 module.exports = router;
