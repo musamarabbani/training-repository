@@ -35,6 +35,7 @@ const createTodo = async (req, res) => {
 
 const updateTodoById = async (req, res) => {
 	try {
+		const { todoId } = req.params;
 		let errors = validationResult(req);
 		if (!errors.isEmpty())
 			return res.status(400).json({
@@ -44,9 +45,10 @@ const updateTodoById = async (req, res) => {
 			});
 
 		let { title } = req.body;
-		let createdTodo = await Todo.create({ title });
-		if (!createdTodo) throw new Error('could not create todo');
-		return res.status(200).json({ createdTodo });
+		Todo.update({ title }, { where: { id: todoId } }).then((result) => {
+			if (result === 0) throw new Error('could not update todo');
+			else return res.status(200).json({ message: 'record updated' });
+		});
 	} catch (err) {
 		return res.status(400).json({
 			message: err.message ? err.message : 'server error',
@@ -56,32 +58,59 @@ const updateTodoById = async (req, res) => {
 };
 
 const deleteTodoById = (req, res) => {
-	try {
-	} catch (err) {
+	const { todoId } = req.params;
+	let errors = validationResult(req);
+	if (!errors.isEmpty())
 		return res.status(400).json({
-			message: '',
-			error: err,
+			message: 'body validation error',
+			errors: errors.errors,
 			status: 400,
 		});
-	}
+
+	Todo.destroy({ where: { id: todoId } })
+		.then((result) => {
+			console.log('deletedRecords ', result);
+			if (result === 0) throw Error('no record found');
+
+			return res.status(200).json({ message: 'record deleted' });
+		})
+		.catch((err) => {
+			return res.status(400).json({
+				message: err.message ? err.message : 'server error',
+				status: 400,
+			});
+		});
 };
-const getAllTodos = (req, res) => {
+const getAllTodos = async (req, res) => {
 	try {
+		let allTodos = await Todo.findAll({});
+		return res.status(200).json({ allTodos });
 	} catch (err) {
 		return res.status(400).json({
-			message: '',
-			error: err,
+			message: err.message ? err.message : 'server error',
 			status: 400,
 		});
 	}
 };
 
-const getTodoById = (req, res) => {
+const getTodoById = async (req, res) => {
 	try {
+		const { todoId } = req.params;
+		let errors = validationResult(req);
+		if (!errors.isEmpty())
+			return res.status(400).json({
+				message: 'body validation error',
+				errors: errors.errors,
+				status: 400,
+			});
+
+		let todoRecord = await Todo.findByPk(todoId);
+		if (todoRecord === null)
+			return res.status(200).json({ message: 'no record found' });
+		return res.status(200).json({ todoRecord });
 	} catch (err) {
 		return res.status(400).json({
-			message: '',
-			error: err,
+			message: err.message ? err.message : 'server error',
 			status: 400,
 		});
 	}
