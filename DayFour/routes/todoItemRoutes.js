@@ -2,12 +2,12 @@ var express = require('express');
 const { check, param } = require('express-validator');
 var router = express.Router();
 
-const todoController = require('../controllers/Todos');
+const todoItemController = require('../controllers/TodoItems');
 
 router.post(
 	'/create',
 	[check('title').trim().not().isEmpty().withMessage('title is required')],
-	todoController.createTodo
+	todoItemController.createTodo
 );
 router.put(
 	'/update/:todoId',
@@ -23,7 +23,7 @@ router.put(
 			.isEmpty()
 			.withMessage('title is required to update todo title'),
 	],
-	todoController.updateTodoById
+	todoItemController.updateTodoById
 );
 router.delete(
 	'/delete/:todoId',
@@ -34,7 +34,7 @@ router.delete(
 			.isEmpty()
 			.withMessage('todoId is required in params'),
 	],
-	todoController.deleteTodoById
+	todoItemController.deleteTodoById
 );
 router.get(
 	'/todo/:todoId',
@@ -45,8 +45,8 @@ router.get(
 			.isEmpty()
 			.withMessage('todoId is required in params'),
 	],
-	todoController.getTodoById
+	todoItemController.getTodoById
 );
-router.get('/allTodos', todoController.getAllTodos);
+router.get('/allTodos', todoItemController.getAllTodos);
 
 module.exports = router;
