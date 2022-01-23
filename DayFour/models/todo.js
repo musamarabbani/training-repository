@@ -19,6 +19,12 @@ module.exports = (sequelize, DataTypes) => {
 			title: {
 				type: DataTypes.STRING,
 				allowNull: false,
+				validate: {
+					len: {
+						args: [[2, 25]],
+						msg: 'title must be between 2 to 25 characters',
+					},
+				},
 			},
 		},
 		{

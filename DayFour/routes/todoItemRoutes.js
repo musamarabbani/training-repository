@@ -47,7 +47,7 @@ router.get(
 			.isEmpty()
 			.withMessage('todoItemId is required in params'),
 	],
-	todoItemController.getTodoById
+	todoItemController.getTodoItemById
 );
 router.get('/allTodoItems', todoItemController.getAllTodoItems);
 

@@ -1,5 +1,6 @@
 const Todo = require('../models').todo;
-const { showError } = require('../utils/errors');
+const TodoItem = require('../models').TodoItem;
+
 const { validationResult } = require('express-validator');
 
 const createTodo = async (req, res) => {
@@ -83,7 +84,9 @@ const deleteTodoById = (req, res) => {
 };
 const getAllTodos = async (req, res) => {
 	try {
-		let allTodos = await Todo.findAll({});
+		let allTodos = await Todo.findAll({
+			include: [{ model: TodoItem, as: 'todoItems' }],
+		});
 		return res.status(200).json({ allTodos });
 	} catch (err) {
 		return res.status(400).json({

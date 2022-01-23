@@ -106,7 +106,15 @@ const deleteTodoById = (req, res) => {
 };
 const getAllTodoItems = async (req, res) => {
 	try {
-		let allTodoItems = await TodoItem.findAll({});
+		let allTodoItems = await TodoItem.findAll({
+			attributes: ['id', 'content', 'todoId'],
+			include: [
+				{
+					model: Todo,
+					attributes: ['id', 'title', 'createdAt'],
+				},
+			],
+		});
 		return res.status(200).json({ data: allTodoItems });
 	} catch (err) {
 		return res.status(400).json({
@@ -116,21 +124,26 @@ const getAllTodoItems = async (req, res) => {
 	}
 };
 
-const getTodoById = async (req, res) => {
+const getTodoItemById = async (req, res) => {
 	try {
-		const { todoId } = req.params;
+		const { todoItemId } = req.params;
 		let errors = validationResult(req);
 		if (!errors.isEmpty())
 			return res.status(400).json({
-				message: 'body validation error',
+				message: 'params validation error',
 				errors: errors.errors,
 				status: 400,
 			});
 
-		let todoRecord = await Todo.findByPk(todoId);
-		if (todoRecord === null)
-			return res.status(200).json({ message: 'no record found' });
-		return res.status(200).json({ todoRecord });
+		let allTodoItems = await TodoItem.findAll({
+			include: [
+				{
+					model: Todo,
+				},
+			],
+			where: { id: todoItemId },
+		});
+		return res.status(200).json({ data: allTodoItems });
 	} catch (err) {
 		return res.status(400).json({
 			message: err.message ? err.message : 'server error',
@@ -144,7 +157,7 @@ const TodoRoutes = {
 	updateTodoById,
 	deleteTodoById,
 	getAllTodoItems,
-	getTodoById,
+	getTodoItemById,
 };
 
 module.exports = TodoRoutes;
