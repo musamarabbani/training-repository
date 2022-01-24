@@ -1,8 +1,8 @@
-const Todo = require('../models').todo;
-const TodoItem = require('../models').TodoItem;
+const User = require('../models').User;
+const Post = require('../models').Post;
 const { validationResult } = require('express-validator');
 
-const createTodoItem = async (req, res) => {
+const createPost = async (req, res) => {
 	try {
 		let errors = validationResult(req);
 		if (!errors.isEmpty())
@@ -12,13 +12,13 @@ const createTodoItem = async (req, res) => {
 				status: 400,
 			});
 
-		let { content, complete, todoId } = req.body;
-		let matchedTodoId = await Todo.findByPk(todoId);
+		let { content, complete, userId } = req.body;
+		let matchedUserId = await User.findByPk(userId);
 
-		if (matchedTodoId === null) throw new Error('invalid id');
-		let createdTodoItem = await TodoItem.create({ content, complete, todoId });
-		if (!createdTodoItem) throw new Error('could not create todoItem');
-		return res.status(200).json({ data: createdTodoItem });
+		if (matchedUserId === null) throw new Error('invalid userId');
+		let createdPost = await Post.create({ content, complete, userId });
+		if (!createdPost) throw new Error('could not create post');
+		return res.status(200).json({ data: createdPost });
 	} catch (err) {
 		let errorsArr = [];
 		if (err.errors) {
@@ -36,7 +36,7 @@ const createTodoItem = async (req, res) => {
 	}
 };
 
-const updateTodoById = async (req, res) => {
+const updatePostById = async (req, res) => {
 	let errors = validationResult(req);
 	try {
 		if (!errors.isEmpty())
@@ -46,22 +46,22 @@ const updateTodoById = async (req, res) => {
 				status: 400,
 			});
 
-		let { content, complete, todoId } = req.body;
-		const { todoItemId } = req.params;
-		if (todoId) {
-			let matchedTodoId = await Todo.findByPk(todoId);
-			if (matchedTodoId === null) throw Error('invalid id');
+		let { content, complete, userId } = req.body;
+		const { postId } = req.params;
+		if (postId) {
+			let matchedUserId = await User.findByPk(userId);
+			if (matchedUserId === null) throw Error('invalid userId');
 		}
 
-		TodoItem.findOne({ where: { id: todoItemId } })
+		Post.findOne({ where: { id: postId } })
 			.then((item) => {
-				if (!item) throw Error('no item found');
-				var updatedItemDetails = {
+				if (!item) throw Error('no post found');
+				var updatedPostDetails = {
 					content: content ? content : item.content,
 					complete: complete ? complete : item.complete,
-					todoId: todoId ? todoId : item.todoId,
+					userId: userId ? userId : item.userId,
 				};
-				item.update(updatedItemDetails).then((result) => {
+				item.update(updatedPostDetails).then((result) => {
 					if (result === 0) throw Error('no item found to update');
 					return res.status(200).json({ message: 'result updated' });
 				});
@@ -82,8 +82,8 @@ const updateTodoById = async (req, res) => {
 	}
 };
 
-const deleteTodoById = (req, res) => {
-	const { todoItemId } = req.params;
+const deletePostById = (req, res) => {
+	const { postId } = req.params;
 	let errors = validationResult(req);
 	if (!errors.isEmpty())
 		return res.status(400).json({
@@ -92,7 +92,7 @@ const deleteTodoById = (req, res) => {
 			status: 400,
 		});
 
-	TodoItem.destroy({ where: { id: todoItemId } })
+	Post.destroy({ where: { id: postId } })
 		.then((result) => {
 			if (result === 0) throw Error('no record found');
 			return res.status(200).json({ message: 'record deleted' });
@@ -104,18 +104,19 @@ const deleteTodoById = (req, res) => {
 			});
 		});
 };
-const getAllTodoItems = async (req, res) => {
+const getAllPosts = async (req, res) => {
 	try {
-		let allTodoItems = await TodoItem.findAll({
-			attributes: ['id', 'content', 'todoId'],
+		let allPosts = await Post.findAll({
+			// attributes: ['id', 'content', 'postId'],
 			include: [
 				{
-					model: Todo,
-					attributes: ['id', 'title', 'createdAt'],
+					model: User,
+					as: 'userItems',
+					// attributes: ['id', 'title', 'createdAt'],
 				},
 			],
 		});
-		return res.status(200).json({ data: allTodoItems });
+		return res.status(200).json({ data: allPosts });
 	} catch (err) {
 		return res.status(400).json({
 			message: err.message ? err.message : 'server error',
@@ -124,9 +125,9 @@ const getAllTodoItems = async (req, res) => {
 	}
 };
 
-const getTodoItemById = async (req, res) => {
+const getPostById = async (req, res) => {
 	try {
-		const { todoItemId } = req.params;
+		const { postId } = req.params;
 		let errors = validationResult(req);
 		if (!errors.isEmpty())
 			return res.status(400).json({
@@ -135,15 +136,16 @@ const getTodoItemById = async (req, res) => {
 				status: 400,
 			});
 
-		let allTodoItems = await TodoItem.findAll({
+		let allPosts = await Post.findAll({
 			include: [
 				{
-					model: Todo,
+					model: User,
+					as: 'userItems',
 				},
 			],
-			where: { id: todoItemId },
+			where: { id: postId },
 		});
-		return res.status(200).json({ data: allTodoItems });
+		return res.status(200).json({ data: allPosts });
 	} catch (err) {
 		return res.status(400).json({
 			message: err.message ? err.message : 'server error',
@@ -152,12 +154,12 @@ const getTodoItemById = async (req, res) => {
 	}
 };
 
-const TodoRoutes = {
-	createTodoItem,
-	updateTodoById,
-	deleteTodoById,
-	getAllTodoItems,
-	getTodoItemById,
+const PostRoutes = {
+	createPost,
+	updatePostById,
+	deletePostById,
+	getAllPosts,
+	getPostById,
 };
 
-module.exports = TodoRoutes;
+module.exports = PostRoutes;

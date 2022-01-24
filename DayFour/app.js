@@ -1,13 +1,13 @@
 const express = require('express');
 const logger = require('morgan');
-const todoRoutes = require('./routes');
+const apiRoutes = require('./routes');
 const app = express();
 
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
-app.use('/api', todoRoutes);
+app.use('/api', apiRoutes);
 
 const port = process.env.PORT || 4000;
 
