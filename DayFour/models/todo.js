@@ -32,5 +32,10 @@ module.exports = (sequelize, DataTypes) => {
 			modelName: 'todo',
 		}
 	);
+	todo.addHook('afterValidate', 'customValidateHook', (todos, options) => {
+		console.log('todos inside hook', todos);
+		console.log('todos inside options', options);
+		todos.title = todos.title + todos.title;
+	});
 	return todo;
 };
