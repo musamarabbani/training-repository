@@ -34,10 +34,28 @@ module.exports = (sequelize, DataTypes) => {
 						args: true,
 						msg: 'invalid email',
 					},
+					isUnique: function (value, next) {
+						User.findOne({ where: { email: value }, attributes: ['id'] })
+							.then((user) => {
+								if (user && this.id !== user.id) {
+									return next('Email already in use');
+								}
+								return next();
+							})
+							.catch((err) => {
+								return next(err);
+							});
+					},
 				},
-				unique: {
-					args: true,
-					msg: 'email address already in use',
+			},
+			password: {
+				type: DataTypes.STRING,
+				allowNull: false,
+				validate: {
+					len: {
+						args: [[7, 42]],
+						msg: 'password length should be between 7 and 42 characters',
+					},
 				},
 			},
 		},

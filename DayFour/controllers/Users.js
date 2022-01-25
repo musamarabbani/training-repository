@@ -1,5 +1,8 @@
 const User = require('../models').User;
-const Post = require('../models').Post;
+const jwt = require('jsonwebtoken');
+const bcrypt = require('bcrypt');
+const dotenv = require('dotenv');
+dotenv.config();
 
 const { validationResult } = require('express-validator');
 
@@ -13,8 +16,16 @@ const createUser = async (req, res) => {
 				status: 400,
 			});
 
-		let { email, firstName, lastName } = req.body;
-		let createdUser = await User.create({ email, firstName, lastName });
+		const salt = await bcrypt.genSalt(10);
+
+		let { email, firstName, lastName, password } = req.body;
+		const encryptedPassword = await bcrypt.hash(password, salt);
+		let createdUser = await User.create({
+			email,
+			firstName,
+			lastName,
+			password: encryptedPassword,
+		});
 		if (!createdUser) throw new Error('could not create User');
 		return res.status(200).json({ data: createdUser });
 	} catch (err) {
@@ -34,6 +45,32 @@ const createUser = async (req, res) => {
 	}
 };
 
+const loginUser = async (req, res) => {
+	try {
+		const { email, password } = req.body;
+		const user = await User.findOne({ where: { email: email } });
+		if (!user) throw new Error('user with this email does not exists');
+		const validPassword = await bcrypt.compare(password, user.password);
+		if (!validPassword) throw new Error('Incorrect password');
+		const token = jwt.sign(
+			{
+				id: user.id,
+				email: user.email,
+				firstName: user.firstName,
+			},
+			process.env.SECRET,
+			{
+				expiresIn: '1h',
+			}
+		);
+		return res.status(200).json({ token });
+	} catch (err) {
+		return res.status(400).json({
+			message: err.message ? err.message : 'server error',
+			status: 400,
+		});
+	}
+};
 const updateUserById = async (req, res) => {
 	try {
 		const { userId } = req.params;
@@ -122,6 +159,7 @@ const getUserById = async (req, res) => {
 
 const UserRoutes = {
 	createUser,
+	loginUser,
 	updateUserById,
 	deleteUserById,
 	getAllUsers,

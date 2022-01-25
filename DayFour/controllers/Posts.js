@@ -112,7 +112,6 @@ const getAllPosts = async (req, res) => {
 				{
 					model: User,
 					as: 'userItems',
-					// attributes: ['id', 'title', 'createdAt'],
 				},
 			],
 		});
