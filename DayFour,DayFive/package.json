@@ -3,14 +3,46 @@
   "version": "1.0.0",
   "description": "",
   "main": "app.js",
+  "//scripts": {
+    "format:prettier:check": "./node_modules/.bin/prettier --config ./.prettierrc --list-different './**/*.{js,json,css}' -l",
+    "format:prettier:fix": "fix format of js, json and css file using prettier",
+    "lint": "use eslint to check any linting related issues ",
+    "format:lint:check": "combine format and lint check tasks",
+    "format:lint:fix": "combine format and lint fix tasks"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon app.js"
+    "start": "nodemon app.js",
+    "format:prettier:check": "./node_modules/.bin/prettier --config ./.prettierrc --list-different './**/*.{js,json,css}' -l",
+    "format:prettier:fix": "./node_modules/.bin/prettier --config ./.prettierrc --list-different './**/*.{js,json,css}' --write",
+    "lint": "./node_modules/.bin/eslint './**/*.js'",
+    "lint:fix": "./node_modules/.bin/eslint './**/*.js' --fix",
+    "format:lint:check": "npm run format:prettier:check && npm run lint",
+    "format:lint:fix": "npm run format:prettier:fix && npm run lint:fix"
   },
   "author": "Muhammad Usama Rabani",
   "license": "ISC",
   "devDependencies": {
-    "nodemon": "^2.0.15"
+    "eslint": "^8.7.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-import": "^2.25.4",
+    "eslint-plugin-prettier": "^4.0.0",
+    "husky": "^7.0.4",
+    "lint-staged": "^12.3.1",
+    "nodemon": "^2.0.15",
+    "prettier": "^2.5.1"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged":{
+    "*.{js,json,css,md,html}":[
+      "prettier --single-quote --write",
+      "git add"
+    ]
   },
   "dependencies": {
     "bcrypt": "^5.0.1",
