@@ -38,9 +38,10 @@
       "pre-commit": "lint-staged"
     }
   },
-  "lint-staged":{
-    "*.{js,json,css,md,html}":[
+  "lint-staged": {
+    "*.{js,json,css,md,html}": [
       "prettier --single-quote --write",
+      "npm run format:prettier:check",
       "git add"
     ]
   },
