@@ -18,7 +18,8 @@
     "lint": "./node_modules/.bin/eslint './**/*.js'",
     "lint:fix": "./node_modules/.bin/eslint './**/*.js' --fix",
     "format:lint:check": "npm run format:prettier:check && npm run lint",
-    "format:lint:fix": "npm run format:prettier:fix && npm run lint:fix"
+    "format:lint:fix": "npm run format:prettier:fix && npm run lint:fix",
+    "prepare": "husky install"
   },
   "author": "Muhammad Usama Rabani",
   "license": "ISC",
@@ -28,7 +29,7 @@
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-import": "^2.25.4",
     "eslint-plugin-prettier": "^4.0.0",
-    "husky": "^7.0.4",
+    "husky": "^7.0.0",
     "lint-staged": "^12.3.1",
     "nodemon": "^2.0.15",
     "prettier": "^2.5.1"
