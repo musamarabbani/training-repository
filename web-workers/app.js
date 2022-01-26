@@ -27,3 +27,6 @@ http
 		}
 	})
 	.listen(port, () => console.log(`Listening on port ${port}...`));
+
+// Also try to learn workerpool npm package to achieve the above functionality with workers
+//  https://www.npmjs.com/package/workerpool
