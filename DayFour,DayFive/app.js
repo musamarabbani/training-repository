@@ -14,6 +14,8 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
 app.use('/api', apiRoutes);
+// uncomment this below line to run schedulers
+// require('./schedulers/cronJob').cron;
 
 const port = process.env.PORT || 4000;
 
