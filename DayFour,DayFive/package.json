@@ -48,14 +48,20 @@
   },
   "dependencies": {
     "bcrypt": "^5.0.1",
+    "bull": "^4.2.1",
     "dotenv": "^14.2.0",
     "express": "^4.17.2",
     "express-validator": "^6.14.0",
     "jsonwebtoken": "^8.5.1",
     "morgan": "^1.10.0",
+    "node-cron": "^3.0.0",
     "pg": "^8.7.1",
     "pg-hstore": "^2.3.4",
     "sequelize": "^6.13.0",
-    "sequelize-cli": "^6.4.1"
+    "sequelize-cli": "^6.4.1",
+    "socket.io": "^4.4.1",
+    "util": "^0.12.4",
+    "uuid": "^8.3.2",
+    "ytdl-core": "^4.10.0"
   }
 }
