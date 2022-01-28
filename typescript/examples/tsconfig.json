@@ -1,0 +1,8 @@
+{
+	"compilerOptions": {
+		"target": "es2016",
+		"lib": ["DOM"],
+		"rootDir": "src",
+		"outDir": "dist"
+	}
+}
