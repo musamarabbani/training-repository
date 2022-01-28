@@ -1,5 +1,10 @@
 
-class BaseServer {
+interface IServer{
+  startServer():void,
+  stopServer():void
+}
+
+class BaseServer implements IServer{
   private port:number;
   private address:string;
   constructor(port:number, address:string){
@@ -22,7 +27,7 @@ class DbServer extends BaseServer{
   }
 }
 
-const someServer = new DbServer(80, 'localhost');
+const someServer:IServer = new DbServer(80, 'localhost');
 // someServer.startServer();
 
 const somePort = (someServer as any).port;
