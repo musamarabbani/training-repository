@@ -1,17 +1,21 @@
 import { take, takeEvery, put, call } from 'redux-saga/effects';
 
-function* workerSaga() {
-	console.log('Im workerSaga');
-	console.log(put({ type: 'ACTION_FROM_WORKER' }));
+function* loginWorkerSaga() {
+	console.log('loginWorkerSaga');
 	yield put({ type: 'ACTION_FROM_WORKER' });
 }
 
+function* logoutWorkerSaga() {
+	console.log('LOGOUT_PASS');
+	yield put({ type: 'LOGOUT_PASS' });
+}
 // watcher saga
 function* rootSaga() {
 	// yield takeEvery('HELLO', workerSaga);
-	yield take('HELLO');
-	yield call(workerSaga);
-	console.log('root saga');
+	yield take('LOGIN');
+	yield call(loginWorkerSaga);
+	yield take('LOGOUT');
+	yield call(logoutWorkerSaga);
 }
 
 export default rootSaga;
