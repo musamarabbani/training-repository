@@ -1,4 +1,4 @@
-import { takeEvery, put, call } from 'redux-saga/effects';
+import { take, takeEvery, put, call } from 'redux-saga/effects';
 
 function* workerSaga() {
 	console.log('Im workerSaga');
@@ -8,7 +8,9 @@ function* workerSaga() {
 
 // watcher saga
 function* rootSaga() {
-	yield takeEvery('HELLO', workerSaga);
+	// yield takeEvery('HELLO', workerSaga);
+	yield take('HELLO');
+	yield call(workerSaga);
 	console.log('root saga');
 }
 
