@@ -1,8 +1,13 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 
 function ImageGrid(props) {
 	return <h2>ImageGrid Component</h2>;
 }
 
-export default connect(ImageGrid);
+const mapStateToProps = ({ isLoading, images, error }) => ({
+	isLoading,
+	images,
+	error,
+});
+export default connect(mapStateToProps, null)(ImageGrid);
