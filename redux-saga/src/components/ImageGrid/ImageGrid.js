@@ -22,10 +22,10 @@ class ImageGrid extends React.Component {
 								<img src={image.urls.small} alt={image.user.username} />
 							</div>
 						))}
-					<button className='btn btn-primary' onClick={this.props.loadImages}>
-						Load Images
-					</button>
 				</section>
+				<button className='btn btn-primary' onClick={this.props.loadImages}>
+					Load Images
+				</button>
 			</div>
 		);
 	}
