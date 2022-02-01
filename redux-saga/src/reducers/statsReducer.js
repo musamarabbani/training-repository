@@ -1,7 +1,6 @@
 import { STATS } from '../constants';
 
 const statsReducer = (state = {}, action) => {
-	console.log('statsReducer ==>', action);
 	switch (action.type) {
 		case STATS.LOAD:
 			return {

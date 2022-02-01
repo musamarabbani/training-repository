@@ -3,5 +3,5 @@ import imagesSaga from './imagesSaga';
 import statsSaga from './statsSaga';
 
 export default function* rootSaga() {
-	yield all([imagesSaga, statsSaga]);
+	yield all([imagesSaga(), statsSaga()]);
 }

@@ -19,7 +19,6 @@ function* handleStatsRequest(imageId) {
 export default function* watchStatsRequest() {
 	while (true) {
 		const { images } = yield take(IMAGES.LOAD_SUCCESS);
-		console.log('images ==>', images);
 		for (let i = 0; i < images.length; i++) {
 			yield fork(handleStatsRequest, images[i].id);
 		}
