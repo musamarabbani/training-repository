@@ -1,15 +1,19 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { loadImages } from '../../actions';
+import Button from '../Buttons';
 import './styles.css';
 
 class ImageGrid extends React.Component {
 	state = {
 		images: [],
 	};
+	componentDidMount() {
+		this.props.loadImages();
+	}
 
 	render() {
-		const { images } = this.props;
+		const { images, error, isLoading, loadImages } = this.props;
 		return (
 			<div className='content'>
 				<section className='grid'>
@@ -23,9 +27,10 @@ class ImageGrid extends React.Component {
 							</div>
 						))}
 				</section>
-				<button className='btn btn-primary' onClick={this.props.loadImages}>
+				<Button onClick={() => !isLoading && loadImages()} loading={isLoading}>
 					Load Images
-				</button>
+				</Button>
+				{error && <div className='error mt-3'>{JSON.stringify(error)}</div>}
 			</div>
 		);
 	}
