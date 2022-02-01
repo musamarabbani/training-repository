@@ -1,12 +1,12 @@
 import { call, fork, take, put } from 'redux-saga/effects';
 import { IMAGES } from '../constants';
 import { fetchImageStats } from '../api';
-import { setImageStats, setImageStatsError } from '../actions';
+import { loadImageStats, setImageStats, setImageStatsError } from '../actions';
 
-function* handleStatsRequest(imageId) {
+export function* handleStatsRequest(imageId) {
 	for (let i = 0; i < 3; i++) {
 		try {
-			yield put(fetchImageStats(imageId));
+			yield put(loadImageStats(imageId));
 			const res = yield call(fetchImageStats, imageId);
 			yield put(setImageStats(imageId, res.downloads.total));
 			return true;
