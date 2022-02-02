@@ -10,7 +10,6 @@ const fetchImages = async (page) => {
 			`${URL}?client_id=${key}&per_page=24&page=${page}`
 		);
 		let data = response.data;
-		console.log('response ==>', response);
 		if (response.status >= 400) throw new Error(data.errors);
 
 		return data;
@@ -32,7 +31,6 @@ const fetchImageStats = async (imageId) => {
 
 		return data;
 	} catch (err) {
-		debugger;
 		throw new Error(err.response.data.errors);
 	}
 };
